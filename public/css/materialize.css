@@ -3,8 +3,15 @@
  * Copyright 2014-2015 Materialize
  * MIT License (https://raw.githubusercontent.com/Dogfalo/materialize/master/LICENSE)
  */
-.materialize-red {
-  background-color: #e51c23 !important;
+	
+  /* Preserve aspet ratio */
+  min-width: 100%;
+  min-height: 100%;
+}
+
+
+.materialize-violet {
+  background-color: #8e24aa !important;
 }
 
 .materialize-red-text {
@@ -14,6 +21,31 @@
 .materialize-red.lighten-5 {
   background-color: #fdeaeb !important;
 }
+
+form {
+  background: -webkit-linear-gradient(bottom, #241F1F, #FFFFFF  175px);
+  background: -moz-linear-gradient(bottom, #241F1F, #C7C2C2 175px);
+  background: linear-gradient(bottom, #241F1F, #433433 175px);
+  margin: auto;
+  position: relative;
+  width: 1200px;
+  height: 550px;
+  font-family: Tahoma, Geneva, sans-serif;
+  font-size: 14px;
+  font-style: italic;
+  line-height: 24px;
+  font-weight: bold;
+  color: #0F0F0F;
+  text-decoration: none;
+  border-radius: 10px;
+  padding: 10px;
+  border: 1px solid #0F0F0F;
+  border: inset 1px solid #0F0F0F;
+  -webkit-box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+}
+
 
 .materialize-red-text.text-lighten-5 {
   color: #fdeaeb !important;
@@ -2158,7 +2190,12 @@ html {
  * Remove default margin.
  */
 body {
-  margin: 0;
+background:url(../img/shoes.jpg);
+background-repeat:no-repeat;
+background-size:cover;
+background-attachment: fixed;
+background-position: center center;
+  
 }
 
 /* HTML5 display definitions
@@ -4480,7 +4517,7 @@ small {
 .card {
   position: relative;
   margin: 0.5rem 0 1rem 0;
-  background-color: #fff;
+  background-color: #716D6D;
   transition: box-shadow .25s;
   border-radius: 2px;
 }
@@ -4601,7 +4638,7 @@ small {
 }
 
 .card .card-image .card-title {
-  color: #fff;
+  color: #000000;
   position: absolute;
   bottom: 0;
   left: 0;
@@ -4630,14 +4667,14 @@ small {
 }
 
 .card .card-action a:not(.btn):not(.btn-large):not(.btn-floating) {
-  color: #ffab40;
+  color: #040404;
   margin-right: 20px;
   transition: color .3s ease;
   text-transform: uppercase;
 }
 
 .card .card-action a:not(.btn):not(.btn-large):not(.btn-floating):hover {
-  color: #ffd8a6;
+  color: #040404;
 }
 
 .card .card-reveal {
@@ -5672,7 +5709,7 @@ button:focus {
 
 label {
   font-size: 0.8rem;
-  color: #9e9e9e;
+  color: #0F0F0F;
 }
 
 /* Text Inputs + Textarea
@@ -6000,7 +6037,7 @@ textarea.materialize-textarea + label:after {
 }
 
 .input-field label {
-  color: #9e9e9e;
+  color: #050505;
   position: absolute;
   top: 0.8rem;
   left: 0;
