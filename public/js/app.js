@@ -186,7 +186,7 @@ class App{
 	}
 
 	shoeDesign(){
-
+		let id = document.getElementById('id1');	
 		let name = document.getElementById('nameshoes');
 		let description = document.getElementById('descriptionshoes');
 		let picture = document.getElementById('pictureshoes');
@@ -194,6 +194,7 @@ class App{
 
 		let shoes = {      
 			
+			"id": id.value,
 			"name": name.value,
 			"description": description.value,
 			"picture": picture.value,
@@ -205,8 +206,40 @@ class App{
 		this.shoes.push(shoes);
 
 		
-		name.value = description.value = picture.value = ''; 
+		id.value = name.value = description.value = picture.value = ''; 
 	} 
+
+	deleteShoes(key){
+		let r = this.shoes;
+		for(let i=0;i<r.length;i++){
+			if(r[i].id == key){
+				this.shoes.splice(i,1);
+				break;
+			}
+		}   
+		this.ShoeList();
+	}
+
+	shoeId(id){
+		let r = this.shoes;
+		for(let i=0;i<r.length;i++){
+			if(id==r[i].id){
+				return r[i];
+			}
+		}
+	} 
+
+	shoeSearch(name){
+		let objects = [];
+		let r = this.shoes;
+		for(let i=0;i<r.length;i++){
+			let expr = (r[i].name.toUpperCase().indexOf(name.toUpperCase()) > -1);
+			if(expr){
+				objects.push(r[i]);
+			}
+		}
+		return objects;
+	}
 
 	
 
@@ -267,6 +300,7 @@ class Component extends App{
 		<div id="Home"></div>
 		<div id="RecentActivity"></div>
 		<div id="viewShoes"></div>
+		<div id="updateShoes"></div>
 		<div id="ShoeList"></div>
 		<div id="createShoes"></div>
 		<div id="shoepage "></div>
@@ -309,13 +343,6 @@ class Component extends App{
 	RecentActivity(){
 		
 		let html = `
-
-
-
-
-
-
-
 
 
 
@@ -403,10 +430,10 @@ class Component extends App{
 		<p>${r.description}</p>
 		
 		</div>
-		<div class="card-action small">               
-		<span onclick="component.deleteShoes(${r.id})" class="new badge small red" data-badge-caption="">Delete Shoes</span>
-		<span onclick="component.ShoeList()" class="new badge small" data-badge-caption="">Back to shoes List</span>
-		</div>            
+		<div class="card-action small">      
+		<button onclick="component.updateShoes(${r.id})" class="btn waves-effect waves-light">Update Shoe</button>
+		<button onclick="component.ShoeList()" class="btn waves-effect waves-light">Back To Shoe List</button>
+		<button onclick="component.deleteShoes(${r.id})" class="btn waves-effect waves-light">Delete Shoe</button>
 		</div>     
 		</div>   
 		
@@ -420,6 +447,7 @@ class Component extends App{
 		$('#viewShoes').show();
 		$('#RecentActivity').hide();
 		$('#ShoeList').hide();
+		$('#updateShoes').hide();
 		$('#createShoes').hide();
 		$('#shoepage').hide();
 		$('#Home').hide();
@@ -477,13 +505,14 @@ class Component extends App{
 			`,document.getElementById("ShoeList"));
 		$('#ShoeList').show();
 		$('#viewShoes').hide();
+		$('#updateShoes').hide();
 		$('#RecentActivity').hide();
 		$('#createShoes').hide();    
 		$('#shoepage').hide();    
 		$('#Home').hide();
 	}
 
-	MusicInventory(name){
+	shoesInventory(name){
 		let html = ``;
 		let r = this.shoeSearch(name);
 		for(let i=0;i<r.length;i++){
@@ -507,9 +536,10 @@ class Component extends App{
 		}   
 		this.reRender(`
 			${html}
-			`,document.getElementById("MusicInventory"));
+			`,document.getElementById("shoesInventory"));
 		$('#ShoeList').show();
 		$('#viewShoes').hide();
+		$('#updateShoes').hide();
 		$('#RecentActivity').hide();  
 		$('#createShoes').hide();
 		$('#shoepage').hide();    
@@ -521,19 +551,17 @@ class Component extends App{
 
 		
 		<br>
-
 		<form>
 		<div>
-
 		<center><h1>Create Shoes</h1></center>
-		<label for="nameshoes">  <span>Brand Name/ Shoes Name:</span><input type="text" id="nameshoes"/> </label>
-		<label for="pictureshoes"><span>Shoe Pic</span><input type="text" id="pictureshoes" /> </label>
+		<center><span >Shoes Stocks<span class="required">*</span></span><input disabled value="${this.shoes.length+1}" id="id1" type="text" ></label></center>
+		<label for="nameshoes">  <span>Brand Name/ Shoes Name:</span><input type="email" id="nameshoes"/> </label>
+		<label for="pictureshoes"><span>Shoe Pic</span><input type="email" id="pictureshoes" /> </label>
 		<label for="descriptionshoes"><span>Shoe Description </span><textarea id="descriptionshoes" class="textarea-field"></textarea> </label>
 
 		<div class="center-align">
 		<br><button onclick="component.shoeDesign()" class="btn waves-effect waves-light">Submit</button></br>
 		</div>
-
 		</div>
 		</form>
 		</br>
@@ -552,6 +580,7 @@ class Component extends App{
 			`,document.getElementById("createShoes"));
 		$('#createShoes').show();
 		$('#ShoeList').hide();
+		$('#updateShoes').hide();
 		$('#viewShoes').hide();
 		$('#RecentActivity').hide();  
 		$('#shoepage').hide(); 
@@ -603,6 +632,7 @@ class Component extends App{
 			`,document.getElementById("createShoes"));
 		$('#createShoes').show();
 		$('#ShoeList').hide();
+		$('#updateShoes').hide();
 		$('#viewShoes').hide();
 		$('#RecentActivity').hide(); 
 		$('#Home').hide();  
@@ -611,37 +641,72 @@ class Component extends App{
 
 	}
 
-	deleteShoes(key){
+	
+
+	updateShoeApp(id){
+
+		id = id+1;
+		let shoeDummy = {
+			"id" :  id,
+			"name" : $('#shoename').val(),
+			"description" : $('#shoedes').val(),   
+			"picture" : $('#image').val()
+
+		}
+
 		let r = this.shoes;
 		for(let i=0;i<r.length;i++){
-			if(r[i].id == key){
-				this.shoes.splice(i,1);
+			if(r[i].id == id){
+				r[i] = shoeDummy;
 				break;
 			}
-		}   
+		}
+
 		this.ShoeList();
 	}
 
-	shoeId(id){
-		let r = this.shoes;
-		for(let i=0;i<r.length;i++){
-			if(id==r[i].id){
-				return r[i];
-			}
-		}
-	} 
 
-	shoeSearch(name){
-		let objects = [];
-		let r = this.shoes;
-		for(let i=0;i<r.length;i++){
-			let expr = (r[i].name.toUpperCase().indexOf(name.toUpperCase()) > -1);
-			if(expr){
-				objects.push(r[i]);
-			}
-		}
-		return objects;
+	updateShoes(id){
+
+		id = id - 1;
+		let html = `
+		<form>
+		<div class="row">
+		<div class="input-field col s12">
+		<h5><B>Update Your Shoes:</B></h5>
+		<tr>
+		<p>Enter Shoe Name:</p>
+		<input id="shoename" type="text" class="validate" value="${this.shoes[id].name}">
+		<p>Enter Shoe Image:</p>
+		<input id="image" type="text" class="validate" value="${this.shoes[id].picture}">
+
+		<h5><B>Edit your Shoe Description!</B></h5>
+
+		
+		<input id="shoedes" type="text" class="validate" value="${this.shoes[id].description}"></div>
+		</div>
+		<a onclick="component.updateShoeApp(${id})" class="waves-effect blue waves-light btn">Update</a>
+		</form>
+		`;  
+		this.reRender(`
+
+			${html}
+
+			`,document.getElementById("updateShoes"));   
+
+		$('#viewShoes').hide();
+		$('#RecentActivity').hide();
+		$('#ShoeList').hide();
+		$('#updateShoes').show();
+		$('#createShoes').hide();
+		$('#shoepage').hide();
+		$('#Home').hide();
+		
 	}
+
+
+
+
 
 
 	Home(){
@@ -654,6 +719,7 @@ class Component extends App{
 			`,document.getElementById("createShoes"));
 		$('#createShoes').hide();
 		$('#ShoeList').hide();
+		$('#updateShoes').hide();
 		$('#viewShoes').hide();
 		$('#RecentActivity').show(); 
 		$('#Home').hide();  
